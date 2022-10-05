@@ -1,22 +1,29 @@
 import requests
 
-token = open("D:/Visual Studio Code/GitHub/Vocabulary_Test/src/token.txt").readline()
-database_ID = '5d7dfeb4ecc44661a7cc15b62966a700'
+def get_token(path):
+    try:
+        file = open(path)
+        token = file.readline().strip()
+        database_ID = file.readline().strip()
+        return token, database_ID
+    except:
+        raise FileNotFoundError
 
-headers = {
-    "Authorization": "Bearer " + token,
-    "Notion-Version": "2022-06-28"
-}
+def read_database():
 
-def read_database(database_ID, headers):
+    token, database_ID = get_token("D:/Visual Studio Code/GitHub/Vocabulary_Test/src/token.txt")
+
     readURL = f'https://api.notion.com/v1/databases/{database_ID}/query'
-    
+    headers = {
+            "Authorization": token,
+            "Notion-Version": "2022-06-28"
+    }
     try:
         res = requests.request("POST", readURL, headers = headers)
         data = res.json()
         return data
     except:
-        print(res.status_code, ", Fetch Error")
+        print("Fetch Error")
 
 def data_parser(data):
     vocabularies = {}
@@ -27,7 +34,7 @@ def data_parser(data):
     return vocabularies
         
 
-data = read_database(database_ID, headers)
+data = read_database()
 vocabularies = data_parser(data)
 print(vocabularies)
 
