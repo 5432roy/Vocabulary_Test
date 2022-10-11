@@ -64,7 +64,9 @@ class GUI:
 
         self.status.config(text = text)
 
-
+# TODO
+# replace the current code that getting the value from dictionary one by one through the for loop sturcture with a generator function
+# makes the selection of words become random
 
 if __name__ == "__main__":
     dictionary = read_database()
