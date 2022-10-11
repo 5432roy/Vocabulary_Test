@@ -34,7 +34,7 @@ class GUI:
         self.root = root
         root.title("Vocabulary Test")
         root.geometry('500x100')
-        
+        self.index = 0
 
         self.user_input = tk.StringVar()
         # the anwer box for the user to input the vocabulary
@@ -43,18 +43,27 @@ class GUI:
         # bind the function get_text with this property and trigger by Hitting 'Enter'
         self.answer.bind('<Return>', self.get_text)
 
-        self.meaning = Label(root, text = ": " + list(dictionary.values())[0])
+        self.meaning = Label(root, text = ": " + list(dictionary.values())[self.index])
         self.meaning.pack(side = TOP)
+
+        # initail the status label of user input
+        self.status = Label(root, text = "")
+        self.status.pack(side = TOP)
 
     # function to get the text from Entry "answer"
     def get_text(self, event):
-        print(list(dictionary.keys())[0])
-        text = "Correct!" if self.user_input.get() == list(dictionary.keys())[0] else "Wrong"
-
+        print(list(dictionary.keys())[self.index])
+        if self.user_input.get() == list(dictionary.keys())[self.index]:
+            text = "Correct!"
+            self.index += 1
+            self.meaning.config(text = ": " + list(dictionary.values())[self.index])
+        else:
+            text = "Wrong"
+            print(self.user_input.get())
         self.user_input.set("")
 
-        self.status = Label(root, text = text)
-        self.status.pack(side = TOP)
+        self.status.config(text = text)
+
 
 
 if __name__ == "__main__":
