@@ -27,7 +27,7 @@ def read_database():
     for vocabulary in data['results']:
         cur = vocabulary['properties']
         if len(cur['Meaning']['rich_text']) > 0:
-            vocabularies[cur['Vocabulary']['title'][-1]['plain_text'].lower()] = cur['Meaning']['rich_text'][-1]['plain_text']
+            vocabularies[cur['Vocabulary']['title'][-1]['plain_text'].lower().strip()] = cur['Meaning']['rich_text'][-1]['plain_text']
     return vocabularies
 
 class GUI:
